@@ -11,7 +11,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
 @Controller
@@ -34,7 +36,7 @@ public class AuthorizeController {
     @RequestMapping("/callback")
     public String callback(@RequestParam(value = "code")String code,
                            @RequestParam(value = "state") String state,
-                            HttpServletRequest request) {
+                           HttpServletResponse response) {
         //将拿到的数据和Github申请的OAuth Apps的数据封装成对象
         AccessToken accessToken = new AccessToken();
         accessToken.setClient_id(clientId);
@@ -54,14 +56,15 @@ public class AuthorizeController {
          */
         GithubUser githubUser = githubOkHttp.getUser(token);
         if (githubUser != null){
+            String tokens = UUID.randomUUID().toString();
             User user = new User();
             user.setAccountId(String.valueOf(githubUser.getId()));
             user.setName(githubUser.getName());
-            user.setToken(UUID.randomUUID().toString());
+            user.setToken(tokens);
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());
             mapper.insert(user);
-            request.getSession().setAttribute("user", githubUser);
+            response.addCookie(new Cookie("token", tokens));
         }
         return "index";
     }

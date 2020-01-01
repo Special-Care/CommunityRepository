@@ -2,12 +2,17 @@ package com.nsusoft.community.controller;
 
 import com.nsusoft.community.entity.AccessToken;
 import com.nsusoft.community.entity.GithubUser;
+import com.nsusoft.community.entity.User;
+import com.nsusoft.community.mapper.UserMapper;
 import com.nsusoft.community.utils.GithubOkHttp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.UUID;
 
 @Controller
 public class AuthorizeController {
@@ -21,11 +26,15 @@ public class AuthorizeController {
     @Value("${github.client.utl}")
     private String redirectUrl;
 
+    @Autowired
+    private UserMapper mapper;
+
 
     //前端登陆请求GET https://github.com/login/oauth/authorize?client_id=ad66024838c4b2109912&redirect_uri=http://localhost:8080/callback&scope=user&state=1
     @RequestMapping("/callback")
     public String callback(@RequestParam(value = "code")String code,
-                           @RequestParam(value = "state") String state) {
+                           @RequestParam(value = "state") String state,
+                            HttpServletRequest request) {
         //将拿到的数据和Github申请的OAuth Apps的数据封装成对象
         AccessToken accessToken = new AccessToken();
         accessToken.setClient_id(clientId);
@@ -43,7 +52,17 @@ public class AuthorizeController {
          * 再次通过OkHttp的GET https://api.github.com/user?access_token
          * 返回 user信息封装成GithubUser
          */
-        GithubUser user = githubOkHttp.getUser(token);
+        GithubUser githubUser = githubOkHttp.getUser(token);
+        if (githubUser != null){
+            User user = new User();
+            user.setAccountId(String.valueOf(githubUser.getId()));
+            user.setName(githubUser.getName());
+            user.setToken(UUID.randomUUID().toString());
+            user.setGmtCreate(System.currentTimeMillis());
+            user.setGmtModified(user.getGmtCreate());
+            mapper.insert(user);
+            request.getSession().setAttribute("user", githubUser);
+        }
         return "index";
     }
 }

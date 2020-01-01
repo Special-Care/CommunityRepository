@@ -1,7 +1,11 @@
 ##社区Community
 
 ##资料
-[Spring boot模板](spring-boot-starter-thymeleaf)
+
+[Spring boot模板]
+```text
+spring-boot-starter-thymeleaf
+```
 
 [github OAuth api - 授权登陆](https://developer.github.com/apps/installing-github-apps/)
 

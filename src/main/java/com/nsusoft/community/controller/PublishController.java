@@ -33,15 +33,30 @@ public class PublishController {
                             @RequestParam("description") String description,
                             @RequestParam("tag") String tag,
                             HttpServletRequest request, ModelMap modelMap) {
+        if (title == null || title == "") {
+            modelMap.addAttribute("error", "It's title is null");
+            return "publish";
+        }
+        if (description == null || description == "") {
+            modelMap.addAttribute("error", "It's description is null");
+            return "publish";
+        }
+        if (tag == null || tag == "") {
+            modelMap.addAttribute("error", "It's tag is null");
+            return "publish";
+        }
+
         User user = null;
         Cookie[] cookies = request.getCookies();
-        for (Cookie cookie:cookies) {
-            if (cookie.getName().equals("token")) {
-                String token = cookie.getValue();
-                user = userMapper.queryByToken(token);
-                if (user != null)
-                    request.getSession().setAttribute("user", user);
-                break;
+        if (cookies != null && cookies.length != 0) {
+            for (Cookie cookie:cookies) {
+                if (cookie.getName().equals("token")) {
+                    String token = cookie.getValue();
+                    user = userMapper.queryByToken(token);
+                    if (user != null)
+                        request.getSession().setAttribute("user", user);
+                    break;
+                }
             }
         }
 

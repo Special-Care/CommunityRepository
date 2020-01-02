@@ -35,6 +35,9 @@
                         登陆
                     </a>
                 </li>
+                <li th:if="${session.user != null}">
+                    <a href="/publish">发布</a>
+                </li>
                 <li class="dropdown" th:if="${session.user != null}">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                        aria-expanded="false"><i th:text="${session.user.getName()}"/><span class="caret"></span></a>
@@ -60,15 +63,22 @@
                 </div>
                 <div class="form-group">
                     <label for="title">问题补充（必填，请参照右侧提示）:</label>
-                    <textarea  id="description" name="description" class="form-control" cols="30" rows="10"></textarea>
+                    <textarea  id="description" name="description" class="form-control" cols="30" rows="10" style="height: 295px"></textarea>
                 </div>
                 <div class="form-group">
                     <label for="title">添加标签:</label>
                     <input type="text" class="form-control" name="tag" id="tag" placeholder="添加标签, 以分号隔开">
                 </div>
 
-                <span class="alert alert-danger" th:text="${error}"></span>
-                <input class="btn btn-success btn-publish" type="submit" value="发布">
+                <div class="container-fluid main">
+                    <div class="row">
+                        <div class="alert alert-danger col-lg-9 col-md-12 col-sm-12 col-xs-12"
+                             th:if="${error != null}" th:text="${error}"></div>
+                        <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12" style="float: right">
+                            <input class="btn btn-success btn-publish" type="submit" value="发布">
+                        </div>
+                    </div>
+                </div>
             </form>
         </div>
         <div class="col-lg-3 col-md-12 col-sm-12 col-xs-12">

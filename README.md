@@ -2,12 +2,12 @@
 
 ##资料
 
-[Spring boot模板]
+[Spring boot引擎模板]
 ```text
-spring-boot-starter-thymeleaf
+thymeleaf
 ```
 
-[github OAuth api - 授权登陆](https://developer.github.com/apps/installing-github-apps/)
+[github OAuth api - 授权登陆步骤](https://developer.github.com/apps/installing-github-apps/)
 
 ##工具
 idea + git
@@ -44,4 +44,17 @@ create table question
     tag varchar(25),
     constraint question_pk primary key (id)
 );
+```
+
+##插件
+```text
+maven
+<dependency>
+    <groupId>org.projectlombok</groupId>
+    <artifactId>lombok</artifactId>
+    <version>1.18.10</version>
+    <scope>provided</scope>
+</dependency>
+
+idea使用Lombok,需要在idea中Settings-->Plugins搜索Lombok插件安装方可使用
 ```

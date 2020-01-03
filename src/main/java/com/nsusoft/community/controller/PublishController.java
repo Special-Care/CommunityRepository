@@ -33,6 +33,10 @@ public class PublishController {
                             @RequestParam("description") String description,
                             @RequestParam("tag") String tag,
                             HttpServletRequest request, ModelMap modelMap) {
+        modelMap.addAttribute("title", title);
+        modelMap.addAttribute("description", description);
+        modelMap.addAttribute("tag", tag);
+
         if (title == null || title == "") {
             modelMap.addAttribute("error", "It's title is null");
             return "publish";

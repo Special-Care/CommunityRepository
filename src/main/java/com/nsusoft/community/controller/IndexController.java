@@ -1,13 +1,16 @@
 package com.nsusoft.community.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.nsusoft.community.entity.Question;
 import com.nsusoft.community.entity.User;
 import com.nsusoft.community.mapper.QuestionMapper;
 import com.nsusoft.community.mapper.UserMapper;
+import com.nsusoft.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -19,10 +22,12 @@ public class IndexController {
     private UserMapper userMapper;
 
     @Autowired
-    private QuestionMapper questionMapper;
+    private QuestionService service;
 
     @RequestMapping("/")
-    public String index(HttpServletRequest request, ModelMap modelMap) {
+    public String index(@RequestParam(value = "page", defaultValue = "1") Integer page,
+                        @RequestParam(value = "size", defaultValue = "10") Integer size,
+                        HttpServletRequest request, ModelMap modelMap) {
         Cookie[] cookies = request.getCookies();
         if (cookies != null && cookies.length != 0) {
             for (Cookie cookie:cookies) {
@@ -36,8 +41,9 @@ public class IndexController {
             }
         }
 
-        List<Question> questions = questionMapper.queryAllQuestion();
-        modelMap.addAttribute("questions", questions);
+        List<Question> questions = service.queryAllQuestion(page, size);
+        PageInfo pageInfo = new PageInfo(questions);
+        modelMap.addAttribute("pageInfo", pageInfo);
         return "index";
     }
 }

@@ -49,12 +49,20 @@ create table question
 ##插件
 ```text
 maven
+自动生成get/set方法的Jar
 <dependency>
     <groupId>org.projectlombok</groupId>
     <artifactId>lombok</artifactId>
     <version>1.18.10</version>
     <scope>provided</scope>
 </dependency>
+注：idea使用Lombok,需要在idea中Settings-->Plugins搜索Lombok插件安装方可使用
 
-idea使用Lombok,需要在idea中Settings-->Plugins搜索Lombok插件安装方可使用
+分页Jar
+<dependency>
+    <groupId>com.github.pagehelper</groupId>
+    <artifactId>pagehelper-spring-boot-starter</artifactId>
+    <version>1.2.13</version>
+</dependency>
+注：在Spring Boot中必须使用pagehelper-spring-boot-starter，不能使用pagehelper
 ```

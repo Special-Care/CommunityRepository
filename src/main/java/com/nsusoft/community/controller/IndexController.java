@@ -28,18 +28,6 @@ public class IndexController {
     public String index(@RequestParam(value = "page", defaultValue = "1") Integer page,
                         @RequestParam(value = "size", defaultValue = "10") Integer size,
                         HttpServletRequest request, ModelMap modelMap) {
-        Cookie[] cookies = request.getCookies();
-        if (cookies != null && cookies.length != 0) {
-            for (Cookie cookie:cookies) {
-                if (cookie.getName().equals("token")) {
-                    String token = cookie.getValue();
-                    User user = userMapper.queryByToken(token);
-                    if (user != null)
-                        request.getSession().setAttribute("user", user);
-                    break;
-                }
-            }
-        }
 
         List<Question> questions = service.queryAllQuestion(page, size);
         PageInfo pageInfo = new PageInfo(questions);

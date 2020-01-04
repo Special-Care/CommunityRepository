@@ -17,4 +17,13 @@ public class QuestionService {
         PageHelper.startPage(page, size);
         return mapper.queryAllQuestion();
     }
+
+    public List<Question> queryCreatorByUserId(Integer id, Integer page, Integer size) {
+        PageHelper.startPage(page, size);
+        return mapper.queryCreatorByUserId(id);
+    }
+
+    public Question queryQustionById(Integer id) {
+        return mapper.queryQustionById(id);
+    }
 }

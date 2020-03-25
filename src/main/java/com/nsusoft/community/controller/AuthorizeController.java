@@ -4,6 +4,7 @@ import com.nsusoft.community.entity.AccessToken;
 import com.nsusoft.community.entity.GithubUser;
 import com.nsusoft.community.entity.User;
 import com.nsusoft.community.mapper.UserMapper;
+import com.nsusoft.community.service.UserService;
 import com.nsusoft.community.utils.GithubOkHttp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -28,7 +29,7 @@ public class AuthorizeController {
     private String redirectUrl;
 
     @Autowired
-    private UserMapper mapper;
+    private UserService service;
 
 
     //前端登陆请求GET https://github.com/login/oauth/authorize?client_id=ad66024838c4b2109912&redirect_uri=http://localhost:8080/callback&scope=user&state=1
@@ -60,10 +61,9 @@ public class AuthorizeController {
             user.setAccountId(String.valueOf(githubUser.getId()));
             user.setName(githubUser.getName());
             user.setToken(tokens);
-            user.setGmtCreate(System.currentTimeMillis());
-            user.setGmtModified(user.getGmtCreate());
             user.setPhotoUrl(githubUser.getAvatar_url());
-            mapper.insert(user);
+            service.createOrUpdate(user);
+            //mapper.insert(user);
             response.addCookie(new Cookie("token", tokens));
         }
         return "redirect:/";

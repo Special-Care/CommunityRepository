@@ -21,7 +21,7 @@
             <div class="media" th:each="question : ${pageInfo.getList()}" style="border-bottom:1px solid #efefef;">
                 <div class="media-left media-middle">
                     <a href="#">
-                        <img class="media-object img-thumbnail img" th:src="${question.getUser().getPhotoUrl()}">
+                        <img class="media-object img-thumbnail img" th:src="${question.user.getPhotoUrl()}">
                     </a>
                 </div>
                 <div class="media-body">

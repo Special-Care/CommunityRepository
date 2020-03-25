@@ -9,10 +9,12 @@ import com.nsusoft.community.utils.GithubOkHttp;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
 
@@ -66,6 +68,18 @@ public class AuthorizeController {
             //mapper.insert(user);
             response.addCookie(new Cookie("token", tokens));
         }
+        return "redirect:/";
+    }
+
+    //退出登录
+    @GetMapping("/logout")
+    public String logout(HttpServletRequest request, HttpServletResponse response) {
+        //移除session中的User
+        request.getSession().removeAttribute("user");
+        //同时删除cookie中的token
+        Cookie cookie = new Cookie("token", null);
+        cookie.setMaxAge(0);
+        response.addCookie(cookie);
         return "redirect:/";
     }
 }

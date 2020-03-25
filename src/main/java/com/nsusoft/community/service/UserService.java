@@ -12,7 +12,7 @@ public class UserService {
 
     public void createOrUpdate(User user) {
         User dbUser = mapper.queryByAccountId(user.getAccountId());
-        if (dbUser != null) {
+        if (dbUser == null) {
             //数据库中不存在User, 插入User
             user.setGmtCreate(System.currentTimeMillis());
             user.setGmtModified(user.getGmtCreate());

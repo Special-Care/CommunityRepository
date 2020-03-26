@@ -1,0 +1,2 @@
+CREATE USER IF NOT EXISTS sa PASSWORD '123';
+ALTER USER sa admin true ;

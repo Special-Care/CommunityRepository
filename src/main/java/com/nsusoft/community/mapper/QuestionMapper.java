@@ -61,4 +61,7 @@ public interface QuestionMapper {
                     one = @One(select = "com.nsusoft.community.mapper.UserMapper.queryByUserId"))
     })
     Question queryQustionById(Integer id);
+
+    @Update("update question set title = #{title}, description = #{description}, gmt_modify = #{gmtModify}, tag = #{tag} where id = #{id}")
+    void update(Question question);
 }

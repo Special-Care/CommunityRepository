@@ -4,12 +4,11 @@ import com.nsusoft.community.entity.Question;
 import com.nsusoft.community.entity.User;
 import com.nsusoft.community.mapper.QuestionMapper;
 import com.nsusoft.community.mapper.UserMapper;
+import com.nsusoft.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -17,22 +16,34 @@ import javax.servlet.http.HttpServletRequest;
 @Controller
 public class PublishController {
     @Autowired
-    private QuestionMapper questionMapper;
-
-    @Autowired
-    private UserMapper userMapper;
-
+    private QuestionService service;
 
     @RequestMapping("/publish")
     public String publish() {
         return "publish";
     }
 
+    @GetMapping("/publish/{id}")
+    public String edit(@PathVariable(name = "id") Integer id, ModelMap modelMap) {
+        if (id != null) {
+            Question question = service.queryQustionById(id);
+            modelMap.addAttribute("id", question.getId());
+            modelMap.addAttribute("title", question.getTitle());
+            modelMap.addAttribute("description", question.getDescription());
+            modelMap.addAttribute("tag", question.getTag());
+        }
+        return "publish";
+    }
+
+
     @RequestMapping(value = "/submit", method = RequestMethod.POST)
-    public String doPublish(@RequestParam("title") String title,
-                            @RequestParam("description") String description,
-                            @RequestParam("tag") String tag,
+    public String doPublish(@RequestParam(value = "id", required = false) Integer id,
+                            @RequestParam(value = "title", required = false) String title,
+                            @RequestParam(value = "description", required = false) String description,
+                            @RequestParam(value = "tag", required = false) String tag,
                             HttpServletRequest request, ModelMap modelMap) {
+
+        modelMap.addAttribute("id", id);
         modelMap.addAttribute("title", title);
         modelMap.addAttribute("description", description);
         modelMap.addAttribute("tag", tag);
@@ -51,20 +62,20 @@ public class PublishController {
         }
 
         User user = (User) request.getSession().getAttribute("user");
-        if (user == null) {
+        if (user.equals(null)) {
             modelMap.addAttribute("error", "Not logged in");
             return "publish";
         }
 
 
         Question question = new Question();
+        question.setId(id);
         question.setTitle(title);
         question.setDescription(description);
-        question.setGmtCreate(System.currentTimeMillis());
-        question.setGmtModify(question.getGmtCreate());
         question.setCreator(user.getId());
         question.setTag(tag);
-        questionMapper.create(question);
+        service.createOrUpdate(question);
+        //questionMapper.create(question);
         return "redirect:/";
     }
 }

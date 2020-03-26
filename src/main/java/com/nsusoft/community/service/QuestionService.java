@@ -26,4 +26,17 @@ public class QuestionService {
     public Question queryQustionById(Integer id) {
         return mapper.queryQustionById(id);
     }
+
+    public void createOrUpdate(Question question) {
+        if (question.getId().equals(null)) {
+            //id为空，则question是新的问题
+            question.setGmtCreate(System.currentTimeMillis());
+            question.setGmtModify(question.getGmtCreate());
+            mapper.create(question);
+        } else {
+            //id不为空，则question是编辑过后的问题
+            question.setGmtModify(question.getGmtCreate());
+            mapper.update(question);
+        }
+    }
 }

@@ -1,0 +1,1 @@
+ALTER TABLE USER ADD photo_url varchar(256) null;

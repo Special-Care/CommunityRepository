@@ -1,0 +1,1 @@
+alter table question alter column description text;

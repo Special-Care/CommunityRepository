@@ -1,7 +1,7 @@
 package com.nsusoft.community.controller;
 
 import com.github.pagehelper.PageInfo;
-import com.nsusoft.community.entity.Question;
+import com.nsusoft.community.dto.QuestionDto;
 import com.nsusoft.community.entity.User;
 import com.nsusoft.community.mapper.UserMapper;
 import com.nsusoft.community.service.QuestionService;
@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
@@ -41,7 +40,7 @@ public class ProfileController {
             modelMap.addAttribute("sectionName", "最新回复");
         }
 
-        List<Question> questions = service.queryCreatorByUserId(user.getId(), page, size);
+        List<QuestionDto> questions = service.queryCreatorByUserId(user.getId(), page, size);
         PageInfo pageInfo = new PageInfo(questions);
         modelMap.addAttribute("pageInfo", pageInfo);
 

@@ -48,8 +48,17 @@ create table question
 
 ##插件
 ```text
+<<<<<<< HEAD
 I.maven
 自动生成get/set方法的Jar
+=======
+I.Flywaydb
+Configuration can also be supplied directly via the command-line using JVM system properties:
+    命令：mvn flyway:migrate
+
+II.自动生成get/set方法的Jar
+maven
+>>>>>>> origin/master
 <dependency>
     <groupId>org.projectlombok</groupId>
     <artifactId>lombok</artifactId>
@@ -58,7 +67,11 @@ I.maven
 </dependency>
 注：idea使用Lombok,需要在idea中Settings-->Plugins搜索Lombok插件安装方可使用
 
+<<<<<<< HEAD
 II.分页Jar
+=======
+III.pagehelper
+>>>>>>> origin/master
 <dependency>
     <groupId>com.github.pagehelper</groupId>
     <artifactId>pagehelper-spring-boot-starter</artifactId>
@@ -66,6 +79,7 @@ II.分页Jar
 </dependency>
 注：在Spring Boot中必须使用pagehelper-spring-boot-starter，不能使用pagehelper
 
+<<<<<<< HEAD
 III.flyway
 It’s now time to execute Flyway to migrate our database:
     mvn flyway:migrate
@@ -78,4 +92,14 @@ The goal can be executed from the command line with the command:
     mvn mybatis-generator:generate
 You can pass parameters to the goal with standard Maven command line properties. For example:
     mvn -Dmybatis.generator.overwrite=true mybatis-generator:generate
+=======
+IV.MyBatis Generator
+1.The MBG Maven plugin includes one goal:
+    命令：mybatis-generator:generate
+2.The goal is not automatically executed by Maven. It can be executed in two ways.
+  The goal can be executed from the command line with the command:
+    命令：mvn mybatis-generator:generate
+3.You can pass parameters to the goal with standard Maven command line properties. For example:
+    命令：mvn -Dmybatis.generator.overwrite=true mybatis-generator:generate
+>>>>>>> origin/master
 ```

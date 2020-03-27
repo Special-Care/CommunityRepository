@@ -5,6 +5,8 @@ import com.nsusoft.community.dto.QuestionDto;
 import com.nsusoft.community.entity.Question;
 import com.nsusoft.community.entity.QuestionExample;
 import com.nsusoft.community.entity.User;
+import com.nsusoft.community.exception.MyException;
+import com.nsusoft.community.exception.MyHttpStatus;
 import com.nsusoft.community.mapper.QuestionMapper;
 import com.nsusoft.community.mapper.UserMapper;
 import org.springframework.beans.BeanUtils;
@@ -65,6 +67,10 @@ public class QuestionService {
         QuestionDto qusetionDto = new QuestionDto();
 
         Question question = questionMapper.selectByPrimaryKey(id);
+
+        if (question == null)
+            throw new MyException(MyHttpStatus.QUESTION_NOT_FOUND);
+
         User user = userMapper.selectByPrimaryKey(id);
         BeanUtils.copyProperties(question, qusetionDto);
         qusetionDto.setUser(user);
@@ -89,7 +95,8 @@ public class QuestionService {
             QuestionExample questionExample = new QuestionExample();
             questionExample.createCriteria().andIdEqualTo(question.getId());
 
-            questionMapper.updateByExampleSelective(updateQuestion, questionExample);
+            if (questionMapper.updateByExampleSelective(updateQuestion, questionExample) != 1)
+                throw new MyException(MyHttpStatus.QUESTION_NOT_FOUND);
         }
     }
 }

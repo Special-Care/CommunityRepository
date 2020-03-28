@@ -7,6 +7,7 @@ import com.nsusoft.community.entity.QuestionExample;
 import com.nsusoft.community.entity.User;
 import com.nsusoft.community.exception.MyException;
 import com.nsusoft.community.exception.MyHttpStatus;
+import com.nsusoft.community.mapper.QuestionExtraMapper;
 import com.nsusoft.community.mapper.QuestionMapper;
 import com.nsusoft.community.mapper.UserMapper;
 import org.springframework.beans.BeanUtils;
@@ -20,6 +21,9 @@ import java.util.List;
 public class QuestionService {
     @Autowired
     private QuestionMapper questionMapper;
+
+    @Autowired
+    private QuestionExtraMapper questionExtraMapper;
 
     @Autowired
     private UserMapper userMapper;
@@ -98,5 +102,13 @@ public class QuestionService {
             if (questionMapper.updateByExampleSelective(updateQuestion, questionExample) != 1)
                 throw new MyException(MyHttpStatus.QUESTION_NOT_FOUND);
         }
+    }
+
+    public void reading(Integer id) {
+        Question question = new Question();
+        question.setId(id);
+        question.setViewCount(1);
+
+        questionExtraMapper.reading(question);
     }
 }

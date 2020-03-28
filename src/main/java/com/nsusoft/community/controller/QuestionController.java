@@ -16,6 +16,8 @@ public class QuestionController {
     @RequestMapping("/question/{id}")
     public String question(@PathVariable(name = "id") Integer id, ModelMap modelMap) {
         QuestionDto question = service.queryQustionById(id);
+        //阅读量
+        service.reading(id);
         modelMap.addAttribute("question", question);
         return "question";
     }

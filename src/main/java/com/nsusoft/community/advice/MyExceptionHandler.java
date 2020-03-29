@@ -1,6 +1,7 @@
 package com.nsusoft.community.advice;
 
 import com.nsusoft.community.exception.MyException;
+import com.nsusoft.community.exception.MyHttpStatus;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -15,7 +16,7 @@ public class MyExceptionHandler {
         if (ex instanceof MyException) {
             model.addAttribute("message", ex.getMessage());
         } else {
-            model.addAttribute("message", "服务器未捕获的异常");
+            model.addAttribute("message", MyHttpStatus.SYSTEM_ERROR.getMessage());
         }
         return new ModelAndView("error");
     }

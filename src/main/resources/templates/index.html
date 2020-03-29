@@ -26,7 +26,10 @@
                 </div>
                 <div class="media-body">
                     <h4 class="media-heading"><a th:href="@{'/question/' + ${question.getId()}}" th:text="${question.getTitle()}"></a></h4>
-                    <span th:text="${question.getDescription()}"></span><br>
+                    <span th:text="${question.getDescription()}"
+                          style="overflow : hidden;text-overflow: ellipsis;display:
+                          -webkit-box;-webkit-line-clamp: 1;-webkit-box-orient: vertical;">
+                    </span><br>
                     <span class="text">
                         <span th:text="${question.getCommentCount()}"></span> 个回复&nbsp;•&nbsp;
                         <span th:text="${question.getViewCount()}"></span> 次浏览&nbsp;•&nbsp;

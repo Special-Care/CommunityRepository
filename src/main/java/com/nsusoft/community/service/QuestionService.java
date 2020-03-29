@@ -13,11 +13,13 @@ import com.nsusoft.community.mapper.UserMapper;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional
 public class QuestionService {
     @Autowired
     private QuestionMapper questionMapper;
@@ -46,7 +48,7 @@ public class QuestionService {
         return qusetionDtoList;
     }
 
-    public List<QuestionDto> queryCreatorByUserId(Integer id, Integer page, Integer size) {
+    public List<QuestionDto> queryCreatorByUserId(Long id, Integer page, Integer size) {
         PageHelper.startPage(page, size);
         List<QuestionDto> qusetionDtoList = new ArrayList<>();
 
@@ -67,7 +69,7 @@ public class QuestionService {
         return qusetionDtoList;
     }
 
-    public QuestionDto queryQustionById(Integer id) {
+    public QuestionDto queryQustionById(Long id) {
         QuestionDto qusetionDto = new QuestionDto();
 
         Question question = questionMapper.selectByPrimaryKey(id);
@@ -75,7 +77,7 @@ public class QuestionService {
         if (question == null)
             throw new MyException(MyHttpStatus.QUESTION_NOT_FOUND);
 
-        User user = userMapper.selectByPrimaryKey(id);
+        User user = userMapper.selectByPrimaryKey(question.getCreator());
         BeanUtils.copyProperties(question, qusetionDto);
         qusetionDto.setUser(user);
 
@@ -87,6 +89,9 @@ public class QuestionService {
             //id为空，则question是新的问题
             question.setGmtCreate(System.currentTimeMillis());
             question.setGmtModify(question.getGmtCreate());
+            question.setCommentCount(0);
+            question.setViewCount(0);
+            question.setLikeCount(0);
             questionMapper.insert(question);
         } else {
             //id不为空，则question是编辑过后的问题
@@ -104,7 +109,7 @@ public class QuestionService {
         }
     }
 
-    public void reading(Integer id) {
+    public void reading(Long id) {
         Question question = new Question();
         question.setId(id);
         question.setViewCount(1);

@@ -14,7 +14,7 @@ public class QuestionController {
     private QuestionService service;
 
     @RequestMapping("/question/{id}")
-    public String question(@PathVariable(name = "id") Integer id, ModelMap modelMap) {
+    public String question(@PathVariable(name = "id") Long id, ModelMap modelMap) {
         QuestionDto question = service.queryQustionById(id);
         //阅读量
         service.reading(id);

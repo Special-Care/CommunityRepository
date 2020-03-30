@@ -23,3 +23,60 @@ body{
     font-weight: normal;
     color: #999;
 }
+
+.content {
+    margin-top: 10px;
+}
+
+.comment_content {
+    margin-left: 20px;
+}
+
+.comment_text {
+    margin: 10px 0
+}
+
+.comment_button {
+    float: right; margin-bottom: 15px
+}
+
+.right_page {
+    margin-top: 15px
+}
+
+.edit_div {
+    border-top: 1px solid #efefef;
+    margin-top: 10px;
+}
+
+.edit_a {
+    color: #999
+}
+
+.question_head {
+    border-bottom:1px solid #efefef;
+}
+
+.left_page {
+    border-right:1px solid #efefef;
+}
+
+.text_info {
+    overflow : hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+}
+
+.time {
+    float: right;
+}
+
+.text .icon {
+    cursor: pointer;
+}
+
+.text .icon:hover {
+    color: #499ef3;
+}

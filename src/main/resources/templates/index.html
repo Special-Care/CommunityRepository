@@ -9,16 +9,26 @@
     <script src="js/jquery-3.4.1.min.js"></script>
     <script type="application/javascript" src="js/bootstrap.min.js"></script>
 </head>
+
+<script type="application/javascript">
+    window.onload = function () {
+        if (window.localStorage.getItem("closable")) {
+            window.close();
+            window.localStorage.removeItem("closable");
+        }
+    }
+</script>
+
 <body>
 <div th:insert="~{header :: nav}"></div>
 
 <div class="container-fluid main">
     <div class="row">
-        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12" style="border-right:1px solid #efefef;">
+        <div class="col-lg-9 col-md-12 col-sm-12 col-xs-12 left_page">
             <h2><div style="border-bottom:1px solid #efefef;">
                 <span class="glyphicon glyphicon-list" aria-hidden="true"></span>&nbsp;发现
             </div></h2>
-            <div class="media" th:each="question : ${pageInfo.getList()}" style="border-bottom:1px solid #efefef;">
+            <div class="media question_head" th:each="question : ${pageInfo.getList()}" >
                 <div class="media-left media-middle">
                     <a href="#">
                         <img class="media-object img-thumbnail img" th:src="${question.getUser().getPhotoUrl()}">
@@ -26,10 +36,8 @@
                 </div>
                 <div class="media-body">
                     <h4 class="media-heading"><a th:href="@{'/question/' + ${question.getId()}}" th:text="${question.getTitle()}"></a></h4>
-                    <span th:text="${question.getDescription()}"
-                          style="overflow : hidden;text-overflow: ellipsis;display:
-                          -webkit-box;-webkit-line-clamp: 1;-webkit-box-orient: vertical;">
-                    </span><br>
+                    <span th:text="${question.getDescription()}" class="text_info">
+                    </span>
                     <span class="text">
                         <span th:text="${question.getCommentCount()}"></span> 个回复&nbsp;•&nbsp;
                         <span th:text="${question.getViewCount()}"></span> 次浏览&nbsp;•&nbsp;

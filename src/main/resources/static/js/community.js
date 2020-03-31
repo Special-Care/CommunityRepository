@@ -3,6 +3,10 @@ function onSubmitComment() {
     var content = $("#comment").val();
     var type = 1;
 
+    if (content == null) {
+        alert("评论内容是空的^_^")
+        return;
+    }
     // alert(questionId + "-" + content + "-" + type);
 
     $.ajax({
@@ -16,9 +20,9 @@ function onSubmitComment() {
         }),
         dataType:"JSON",
         success:function (data) {
-            if (data.code == 520)
-                $("#comments").hide();
-            else {
+            if (data.code == 520) {
+                window.document.location.reload();
+            } else {
                 if(data.code == 502) {
                     var onLogin = confirm(data.message);
                     if (onLogin)
@@ -33,4 +37,24 @@ function onSubmitComment() {
             alert(this.url);
         }
     });
+
+
+}
+
+function onCollapse(data) {
+    var id = data.getAttribute("data-id");
+
+
+    if (data.getAttribute("data-collapse")) {
+        //折叠评论
+        $("#comment-" + id).removeClass("in");
+        data.removeAttribute("data-collapse");
+        data.classList.remove("active");
+    } else {
+        //展开评论
+        $("#comment-" + id).addClass("in");
+        data.setAttribute("data-collapse", "in");
+        data.classList.add("active");
+    }
+
 }

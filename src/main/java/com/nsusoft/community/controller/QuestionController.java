@@ -1,9 +1,8 @@
 package com.nsusoft.community.controller;
 
-import com.nsusoft.community.dto.CommentDto;
 import com.nsusoft.community.dto.CommentExtraDto;
 import com.nsusoft.community.dto.QuestionDto;
-import com.nsusoft.community.entity.Comment;
+import com.nsusoft.community.enums.CommentTypeEnum;
 import com.nsusoft.community.service.CommentService;
 import com.nsusoft.community.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +27,7 @@ public class QuestionController {
         //阅读量
         service.reading(id);
 
-        List<CommentExtraDto> commentExtraDtos = commentService.queryAllComment(id);
+        List<CommentExtraDto> commentExtraDtos = commentService.queryCommentsByParentId(id, CommentTypeEnum.QUESTION);
 
         modelMap.addAttribute("question", question);
         modelMap.addAttribute("commentList", commentExtraDtos);

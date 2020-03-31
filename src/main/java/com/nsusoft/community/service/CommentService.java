@@ -1,6 +1,5 @@
 package com.nsusoft.community.service;
 
-import com.nsusoft.community.dto.CommentDto;
 import com.nsusoft.community.dto.CommentExtraDto;
 import com.nsusoft.community.entity.Comment;
 import com.nsusoft.community.entity.CommentExample;
@@ -65,13 +64,13 @@ public class CommentService {
         }
     }
 
-    public List<CommentExtraDto> queryAllComment(Long id) {
+    public List<CommentExtraDto> queryCommentsByParentId(Long id, CommentTypeEnum type) {
         List<CommentExtraDto> commentExtraDtos = new ArrayList<>();
 
         CommentExample commentExample = new CommentExample();
         commentExample.createCriteria()
                 .andParentEqualTo(id)
-                .andTypeEqualTo(CommentTypeEnum.QUESTION.getType());
+                .andTypeEqualTo(type.getType());
         List<Comment> comments = commentMapper.selectByExample(commentExample);
 
         if (comments.isEmpty())

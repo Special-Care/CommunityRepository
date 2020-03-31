@@ -18,6 +18,11 @@ body{
     height: 45px;
 }
 
+.img_comment {
+    width: 20px;
+    height: 20px;
+}
+
 .text {
     font-size: 12px;
     font-weight: normal;
@@ -70,13 +75,34 @@ body{
 }
 
 .time {
-    float: right;
+    margin-left: 505px;
 }
 
 .text .icon {
     cursor: pointer;
 }
 
+.text .active {
+    color: #499ef3;
+}
+
 .text .icon:hover {
     color: #499ef3;
+}
+
+.second {
+    margin-left: 50px;
+}
+
+.form_comment {
+    width: 698px;
+}
+
+.second_button {
+    margin-top: 10px;
+    margin-left: 645px;
+}
+
+.second_comment {
+    margin-top: 10px;
 }

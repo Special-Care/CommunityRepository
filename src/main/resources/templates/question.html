@@ -54,10 +54,35 @@
                         <span class="comment_content" th:text="${comment.content}"></span><br>
                         <span class="text">
                             <span class="glyphicon glyphicon-thumbs-up icon"></span> &nbsp;
-                            <span class="glyphicon glyphicon-thumbs-down icon"></span> &nbsp;
-                            <span class="glyphicon glyphicon-comment icon"></span> &nbsp;
-                            <span class="time" th:text="${#dates.format(comment.gmtCreate, 'yyyy-MM-dd HH:mm')}"></span>
+                            <span class="glyphicon glyphicon-comment icon" th:data-id="${comment.id}" onclick="onCollapse(this)"></span> &nbsp;
+                            <span class="pull-right" th:text="${#dates.format(comment.gmtCreate, 'yyyy-MM-dd HH:mm')}"></span>
                         </span>
+                    </div>
+
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 collapse second" th:id="${'comment-' + comment.id}">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 comment" th:each="comment : ${commentList}">
+                            <hr>
+                            <div class="media ">
+                                <div class="media-left media-middle">
+                                    <a href="#">
+                                        <img class="media-object img-thumbnail img" th:src="${comment.user.photoUrl}">
+                                    </a>
+                                </div>
+                                <div class="media-body">
+                                    <h5 class="media-heading"><span th:text="${comment.user.name}"></span></h5>
+                                    <span class="comment_content" th:text="${comment.content}"></span><br>
+                                    <span class="text">
+                                        <span class="glyphicon glyphicon-thumbs-up icon"></span> &nbsp;
+                                        <span class="time" th:text="${#dates.format(comment.gmtCreate, 'yyyy-MM-dd HH:mm')}"></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 second_comment">
+                            <input type="text" class="form-control form_comment" placeholder="评论一下~">
+                            <button type="button" class="btn btn-success second_button">评论</button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -71,7 +96,7 @@
                 <div class="media">
                     <div class="media-left">
                         <a href="#">
-                            <img class="img" th:src="${question.getUser().getPhotoUrl()}">
+                            <img class="img_comment" th:src="${question.getUser().getPhotoUrl()}">
                         </a>
                     </div>
 

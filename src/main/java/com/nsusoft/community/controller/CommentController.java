@@ -21,7 +21,7 @@ public class CommentController {
     @Autowired
     private CommentService commentService;
 
-    //创建一级评论
+    //创建一级/二级评论
     @PostMapping("/comment")
     @ResponseBody
     public ResultDto createTopComment(@RequestBody CommentDto commentDto, HttpServletRequest request) {

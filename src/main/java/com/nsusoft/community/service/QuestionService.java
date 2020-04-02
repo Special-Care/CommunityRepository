@@ -35,7 +35,9 @@ public class QuestionService {
 
         List<QuestionDto> qusetionDtoList = new ArrayList<>();
 
-        List<Question> questions = questionMapper.selectByExampleWithBLOBs(new QuestionExample());
+        QuestionExample example = new QuestionExample();
+        example.setOrderByClause("gmt_create desc");
+        List<Question> questions = questionMapper.selectByExampleWithBLOBs(example);
         for (Question question : questions) {
             QuestionDto qusetionDto = new QuestionDto();
             BeanUtils.copyProperties(question, qusetionDto);
@@ -53,6 +55,7 @@ public class QuestionService {
         List<QuestionDto> qusetionDtoList = new ArrayList<>();
 
         QuestionExample questionExample = new QuestionExample();
+        questionExample.setOrderByClause("gmt_create desc");
         questionExample.createCriteria().andCreatorEqualTo(id);
         List<Question> questions = questionMapper.selectByExampleWithBLOBs(questionExample);
 

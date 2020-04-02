@@ -51,6 +51,7 @@ body{
 
 .edit_div {
     border-top: 1px solid #efefef;
+    border-bottom: 1px solid #efefef;
     margin-top: 10px;
 }
 

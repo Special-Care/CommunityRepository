@@ -68,6 +68,7 @@ public class CommentService {
         List<CommentExtraDto> commentExtraDtos = new ArrayList<>();
 
         CommentExample commentExample = new CommentExample();
+        commentExample.setOrderByClause("gmt_create desc");
         commentExample.createCriteria()
                 .andParentEqualTo(id)
                 .andTypeEqualTo(type.getType());

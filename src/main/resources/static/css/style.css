@@ -49,10 +49,15 @@ body{
     margin-top: 15px
 }
 
-.edit_div {
+.tags_div {
     border-top: 1px solid #efefef;
     border-bottom: 1px solid #efefef;
     margin-top: 10px;
+}
+
+.edit_div {
+    border-bottom: 1px solid #efefef;
+    margin-bottom: 10px;
 }
 
 .edit_a {
@@ -105,5 +110,19 @@ body{
 }
 
 .second_comment {
+    margin-top: 10px;
+}
+
+.related_question {
+    /*margin-left: 0;*/
+    list-style: none;
+    padding-left: 0;
+}
+
+.wechat {
+    width: 100%;
+}
+
+.tags {
     margin-top: 10px;
 }

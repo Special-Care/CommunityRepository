@@ -24,6 +24,8 @@ public class QuestionController {
     @RequestMapping("/question/{id}")
     public String question(@PathVariable(name = "id") Long id, ModelMap modelMap) {
         QuestionDto question = service.queryQustionById(id);
+
+        List<QuestionDto> questionDtoList = service.queryRelatedQuestion(question);
         //阅读量
         service.reading(id);
 
@@ -31,6 +33,7 @@ public class QuestionController {
 
         modelMap.addAttribute("question", question);
         modelMap.addAttribute("commentList", commentExtraDtos);
+        modelMap.addAttribute("questionDtoList", questionDtoList);
         return "question";
     }
 }

@@ -10,13 +10,16 @@ import com.nsusoft.community.exception.MyHttpStatus;
 import com.nsusoft.community.mapper.QuestionExtraMapper;
 import com.nsusoft.community.mapper.QuestionMapper;
 import com.nsusoft.community.mapper.UserMapper;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -33,21 +36,11 @@ public class QuestionService {
     public List<QuestionDto> queryAllQuestion(int page, int size) {
         PageHelper.startPage(page, size);
 
-        List<QuestionDto> qusetionDtoList = new ArrayList<>();
-
         QuestionExample example = new QuestionExample();
         example.setOrderByClause("gmt_create desc");
         List<Question> questions = questionMapper.selectByExampleWithBLOBs(example);
-        for (Question question : questions) {
-            QuestionDto qusetionDto = new QuestionDto();
-            BeanUtils.copyProperties(question, qusetionDto);
 
-            User user = userMapper.selectByPrimaryKey(question.getCreator());
-
-            qusetionDto.setUser(user);
-            qusetionDtoList.add(qusetionDto);
-        }
-        return qusetionDtoList;
+        return getList(questions);
     }
 
     public List<QuestionDto> queryCreatorByUserId(Long id, Integer page, Integer size) {
@@ -118,5 +111,37 @@ public class QuestionService {
         question.setViewCount(1);
 
         questionExtraMapper.reading(question);
+    }
+
+    public List<QuestionDto> queryRelatedQuestion(QuestionDto question) {
+        if (StringUtils.isBlank(question.getTag()))
+            return new ArrayList<>();
+
+        String[] tags = StringUtils.split(question.getTag(), ",");
+        String regexpTag = Arrays.stream(tags).collect(Collectors.joining("|"));
+        Question questionTag = new Question();
+        questionTag.setId(question.getId());
+        questionTag.setTag(regexpTag);
+
+
+        List<Question> questions = questionExtraMapper.selectRelated(questionTag);
+
+
+        return getList(questions);
+    }
+
+    private List<QuestionDto> getList(List<Question> questions) {
+        List<QuestionDto> qusetionDtoList = new ArrayList<>();
+        for (Question question : questions) {
+            QuestionDto qusetionDto = new QuestionDto();
+            BeanUtils.copyProperties(question, qusetionDto);
+
+            User user = userMapper.selectByPrimaryKey(question.getCreator());
+
+            qusetionDto.setUser(user);
+            qusetionDtoList.add(qusetionDto);
+        }
+
+        return qusetionDtoList;
     }
 }

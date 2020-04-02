@@ -19,7 +19,7 @@ function submitSecondComment(data) {
 //提交评论的Ajax
 function myAjax(parent, content, type) {
 
-    if (content == null) {
+    if (content == null || content == "") {
         alert("评论内容是空的^_^");
         return;
     }
@@ -66,47 +66,65 @@ function onCollapse(d) {
         d.classList.remove("active");
     } else {
         //展开评论
-        $.getJSON("/comment/" + id, function (data) {
-            //console.log(data);
+        var secondComment  = $("#comment-" + id);
 
-            var html = "";
-
-            for (var i = 0; i < data.data.length; i++) {
-                //console.log((data.data)[i].user.photoUrl);
-                html = html + '<hr>';
-                html = html + '<div class="media">';
-                html = html + '<div class="media-left media-middle">';
-                html = html + '<a href="#">';
-                html = html + '<img class="media-object img-thumbnail img" src="' + (data.data)[i].user.photoUrl + '">';
-                html = html + '</a>';
-                html = html + '</div>';
-                html = html + '<div class="media-body">';
-                html = html + '<h5 class="media-heading"><span>' + (data.data)[i].user.name + '</span></h5>';
-                html = html + '<span class="comment_content">' + (data.data)[i].content + '</span><br>';
-                html = html + '<span class="text">';
-                html = html + '<span class="glyphicon glyphicon-thumbs-up icon"></span> &nbsp;';
-                html = html + '<span class="time">' + (new Date((data.data)[i].gmtCreate).toLocaleString()) + ' </span>';
-                html = html + '</span>';
-                html = html + '</div>';
-                html = html + '</div>';
-            }
-            $("div.temp").html(html);
-            //console.log(html);
-
-            // var secondComment  = $("#comment-" + id);
-            // $.each(data.data, function (index, comment) {
-            //     console.log(comment.content);
-            //     var t = $("<div/>", {
-            //        "class":"col-lg-12 col-md-12 col-sm-12 col-xs-12 comment",
-            //        html:comment.content
-            //     });
-            //     secondComment.prepend(t);
-            // });
-
+        if (secondComment.children().length != 1) {
             $("#comment-" + id).addClass("in");
             d.setAttribute("data-collapse", "in");
             d.classList.add("active");
-        });
-    }
+        } else {
+            $.getJSON("/comment/" + id, function (data) {
+                console.log(data);
 
+                $.each(data.data.reverse(), function (index, comment) {
+                    var mediaLeftElement = $("<div/>", {
+                        "class":"media-left"
+                    }).append($("<img/>", {
+                        "class":"media-object img-thumbnail img",
+                        "src":comment.user.photoUrl
+                    }));
+
+                    var mediaBodyElement = $("<div/>", {
+                        "class":"media-body"
+                    }).append($("<h5/>", {
+                        "class":"media-heading",
+                        "html":comment.user.name
+                    })).append($("<span/>", {
+                        "class":"comment_content",
+                        "html":comment.content
+                    }).append("<br>")).append($("<span/>", {
+                        "class":"text",
+                    }).append($("<span/>", {
+                        "class":"glyphicon glyphicon-thumbs-up icon",
+                    })).append($("<span/>", {
+                        "class":"time",
+                        "html":(new Date(comment.gmtCreate).toLocaleString())
+                    })));
+
+                    var mediaElement = $("<div/>", {
+                        "class":"media"
+                    }).append(mediaLeftElement).append(mediaBodyElement);
+
+                    var commentElement = $("<hr><div/>", {
+                        "class":"col-lg-12 col-md-12 col-sm-12 col-xs-12"
+                    }).append(mediaElement);
+
+                    secondComment.prepend(commentElement);
+                });
+
+                $("#comment-" + id).addClass("in");
+                d.setAttribute("data-collapse", "in");
+                d.classList.add("active");
+            });
+        }
+    }
+}
+
+function selectTag(value) {
+    var val = $("#tag").val();
+
+    if (val)
+        $("#tag").val(val + ',' + value);
+    else
+        $("#tag").val(value);
 }

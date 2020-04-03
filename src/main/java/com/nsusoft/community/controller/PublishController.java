@@ -4,6 +4,8 @@ import com.nsusoft.community.dto.QuestionDto;
 import com.nsusoft.community.entity.Question;
 import com.nsusoft.community.entity.User;
 import com.nsusoft.community.service.QuestionService;
+import com.nsusoft.community.utils.TagsUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -17,7 +19,8 @@ public class PublishController {
     private QuestionService service;
 
     @RequestMapping("/publish")
-    public String publish() {
+    public String publish(ModelMap modelMap) {
+        modelMap.addAttribute("tagsDtoList", TagsUtil.getListTags());
         return "publish";
     }
 
@@ -28,6 +31,7 @@ public class PublishController {
         modelMap.addAttribute("title", question.getTitle());
         modelMap.addAttribute("description", question.getDescription());
         modelMap.addAttribute("tag", question.getTag());
+        modelMap.addAttribute("tagsDtoList", TagsUtil.getListTags());
         return "publish";
     }
 
@@ -41,6 +45,13 @@ public class PublishController {
         modelMap.addAttribute("title", title);
         modelMap.addAttribute("description", description);
         modelMap.addAttribute("tag", tag);
+        modelMap.addAttribute("tagsDtoList", TagsUtil.getListTags());
+
+        User user = (User) request.getSession().getAttribute("user");
+        if (user == null) {
+            modelMap.addAttribute("error", "Not logged in");
+            return "publish";
+        }
 
         if (title == null || title == "") {
             modelMap.addAttribute("error", "It's title is null");
@@ -55,12 +66,11 @@ public class PublishController {
             return "publish";
         }
 
-        User user = (User) request.getSession().getAttribute("user");
-        if (user == null) {
-            modelMap.addAttribute("error", "Not logged in");
+        String inValid = TagsUtil.filterInValid(tag);
+        if (StringUtils.isNotBlank(inValid)) {
+            modelMap.addAttribute("error", "It's tag is error ==>" + inValid);
             return "publish";
         }
-
 
         Question question = new Question();
         question.setId(id);

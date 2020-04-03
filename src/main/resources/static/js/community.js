@@ -120,11 +120,19 @@ function onCollapse(d) {
     }
 }
 
-function selectTag(value) {
+function showTags() {
+    $("#tags").show();
+}
+
+function selectTag(data) {
+    var value = data.getAttribute("data-tag");
     var val = $("#tag").val();
 
-    if (val)
-        $("#tag").val(val + ',' + value);
-    else
-        $("#tag").val(value);
+    if(val.indexOf(value) == -1) {
+        if (val)
+            $("#tag").val(val + ',' + value);
+        else
+            $("#tag").val(value);
+    }
+
 }

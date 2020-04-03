@@ -29,16 +29,25 @@
                 </div>
                 <div class="form-group">
                     <label for="title">添加标签:</label>
-                    <input type="text" class="form-control" th:value="${tag}" name="tag" id="tag" autocomplete="off" placeholder="添加标签, 以分号隔开">
+                    <input type="text" class="form-control" th:value="${tag}" name="tag" id="tag" autocomplete="off"
+                           onclick="showTags()" placeholder="添加标签, 以英文逗号隔开">
 
-                    <div class="tags">
-                        <span class="label label-info glyphicon glyphicon-tags" onclick="selectTag('C')">&nbsp;C</span>
-                        <span class="label label-info glyphicon glyphicon-tags" onclick="selectTag('C++')">&nbsp;C++</span>
-                        <span class="label label-info glyphicon glyphicon-tags" onclick="selectTag('PHP')">&nbsp;PHP</span>
-                        <span class="label label-info glyphicon glyphicon-tags" onclick="selectTag('Java')">&nbsp;Java</span>
-                        <span class="label label-info glyphicon glyphicon-tags" onclick="selectTag('Spring')">&nbsp;Spring</span>
-                        <span class="label label-info glyphicon glyphicon-tags" onclick="selectTag('Spring Boot')">&nbsp;Spring Boot</span>
-                        <span class="label label-info glyphicon glyphicon-tags" onclick="selectTag('Android')">&nbsp;Android</span>
+                    <div id="tags" style="display: none">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li role="presentation" th:each="selectTopTag : ${tagsDtoList}" th:class="${selectTopTag.topTag} == '开发语言'? 'active':''">
+                                <a th:href="${'#' + selectTopTag.topTag}" aria-controls="profile" role="tab" data-toggle="tab" th:text="${selectTopTag.topTag}"></a>
+                            </li>
+                        </ul>
+
+                        <div class="tab-content tags">
+                            <div role="tabpanel" th:class="${tempTopTag.topTag} == '开发语言'? 'tab-pane active' : 'tab-pane'"
+                                 th:id="${tempTopTag.topTag}" th:each="tempTopTag : ${tagsDtoList}">
+                                <span class="label label-info tag" th:each="secondTag : ${tempTopTag.secondTags}">
+                                    <span class="glyphicon glyphicon-tags extraTag" th:data-tag="${secondTag}"
+                                          onclick="selectTag(this)" th:text="${' ' + secondTag}"></span>
+                                </span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

@@ -126,3 +126,13 @@ body{
 .tags {
     margin-top: 10px;
 }
+
+.tag{
+    white-space: normal;
+    margin-left: 10px;
+    cursor:pointer;
+}
+
+.extraTag {
+    margin-top: 10px;
+}

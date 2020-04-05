@@ -9,7 +9,9 @@ public enum MyHttpStatus implements MyHttpStatusCode {
     QUERY_COMMENTS(521, "获取评论成功"),
     SYSTEM_ERROR(4004, "服务器异常错误"),
     TYPE_PARENT_WRONG(388, "评论类型不匹配"),
-    COMMENT_PARENT_WRONG(377, "回复的评论不存在");
+    COMMENT_PARENT_WRONG(377, "回复的评论不存在"),
+    READ_NOTIFICATION_FAIL(366, "通知错误"),
+    FOUND_NOTIFICATION(355, "未获取到通知");
 
     private Integer code;
     private String message;

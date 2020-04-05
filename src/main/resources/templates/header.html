@@ -27,9 +27,19 @@
                         <span class="glyphicon glyphicon-user">&nbsp;登陆</span>
                     </a>
                 </li>
+
                 <li th:if="${session.user != null}">
-                    <a href="/publish">提问</a>
+                    <a href="/publish">
+                        <span class="glyphicon glyphicon-question-sign">提问</span>
+                    </a>
                 </li>
+
+                <li th:if="${session.user != null}">
+                    <a href="/profile/replies">
+                        <span class="glyphicon glyphicon-bell">通知 <span class="badge" th:text="${session.unreadCount}"></span></span>
+                    </a>
+                </li>
+
                 <li class="dropdown" th:if="${session.user != null}">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                        aria-expanded="false">

@@ -136,3 +136,7 @@ body{
 .extraTag {
     margin-top: 10px;
 }
+
+.notification {
+    float: right;
+}

@@ -42,7 +42,7 @@ public class CommentController {
         comment.setLikeCount(0L);
         comment.setContent(commentDto.getContent());
 
-        commentService.createComment(comment);
+        commentService.createComment(comment, user);
 
 
         return ResultDto.result(MyHttpStatus.COMMENT_SUCCESS);

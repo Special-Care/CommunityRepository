@@ -1,17 +1,13 @@
 package com.nsusoft.community.service;
 
 import com.nsusoft.community.dto.CommentExtraDto;
-import com.nsusoft.community.entity.Comment;
-import com.nsusoft.community.entity.CommentExample;
-import com.nsusoft.community.entity.Question;
-import com.nsusoft.community.entity.User;
+import com.nsusoft.community.entity.*;
 import com.nsusoft.community.enums.CommentTypeEnum;
+import com.nsusoft.community.enums.NotificationStatusEnum;
+import com.nsusoft.community.enums.NotificationTypeEnum;
 import com.nsusoft.community.exception.MyException;
 import com.nsusoft.community.exception.MyHttpStatus;
-import com.nsusoft.community.mapper.CommentMapper;
-import com.nsusoft.community.mapper.QuestionExtraMapper;
-import com.nsusoft.community.mapper.QuestionMapper;
-import com.nsusoft.community.mapper.UserMapper;
+import com.nsusoft.community.mapper.*;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,6 +20,9 @@ import java.util.List;
 @Transactional
 public class CommentService {
     @Autowired
+    private UserMapper userMapper;
+
+    @Autowired
     private CommentMapper commentMapper;
 
     @Autowired
@@ -33,9 +32,9 @@ public class CommentService {
     private QuestionExtraMapper questionExtraMapper;
 
     @Autowired
-    private UserMapper userMapper;
+    private NotificationMapper notificationMapper;
 
-    public void createComment(Comment comment) {
+    public void createComment(Comment comment, User notificator) {
         if(comment.getParent() == null || comment.getParent() == 0)
             throw new MyException(MyHttpStatus.TARGET_PARENT_NOT_FOUND);
 
@@ -51,16 +50,27 @@ public class CommentService {
 
             commentMapper.insert(comment);
 
+            //问题评论数加一
             question.setCommentCount(1);
             questionExtraMapper.commentCount(question);
+
+            //问题回复的通知
+            createNotification(comment, notificator.getName(), question.getCreator(), question.getId(), question.getTitle(), NotificationTypeEnum.REPLY_QUESTION);
         } else {
             //评论回复
-            Comment selectByPrimaryKey = commentMapper.selectByPrimaryKey(comment.getParent());
+            Comment parentComment = commentMapper.selectByPrimaryKey(comment.getParent());
 
-            if (selectByPrimaryKey == null)
+            if (parentComment == null)
                 throw new MyException(MyHttpStatus.COMMENT_PARENT_WRONG);
 
+            //获取问题是否存在，并获取问题Title
+            Question question = questionMapper.selectByPrimaryKey(parentComment.getParent());
+            if (question == null)
+                throw new MyException(MyHttpStatus.QUESTION_NOT_FOUND);
+
             commentMapper.insert(comment);
+            //评论回复的通知
+            createNotification(comment, notificator.getName(), parentComment.getCommentator(), question.getId(), question.getTitle(), NotificationTypeEnum.REPLY_COMMENT);
         }
     }
 
@@ -86,5 +96,19 @@ public class CommentService {
             commentExtraDtos.add(commentExtraDto);
         }
         return commentExtraDtos;
+    }
+
+    //评论通知
+    private void createNotification(Comment comment, String userName, Long receiver, Long questionId, String title, NotificationTypeEnum typeEnum) {
+        Notification notification = new Notification();
+        notification.setNotifier(comment.getCommentator());
+        notification.setReceiver(receiver);
+        notification.setOuterId(questionId);
+        notification.setType(typeEnum.getType());
+        notification.setGmtCreate(System.currentTimeMillis());
+        notification.setNotificationName(userName);
+        notification.setOuterTitle(title);
+        notification.setStatus(NotificationStatusEnum.UNREAD.getStatus());
+        notificationMapper.insert(notification);
     }
 }

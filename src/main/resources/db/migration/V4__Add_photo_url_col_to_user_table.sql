@@ -1,1 +1,1 @@
-ALTER TABLE USER ADD photo_url varchar(256) null;
+alter table user add photo_url varchar(256) null;

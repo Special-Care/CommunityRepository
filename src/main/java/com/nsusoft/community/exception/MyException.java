@@ -1,6 +1,6 @@
 package com.nsusoft.community.exception;
 
-public class MyException extends RuntimeException{
+public class MyException extends RuntimeException {
     private String message;
     private Integer code;
 

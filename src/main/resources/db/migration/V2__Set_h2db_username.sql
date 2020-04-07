@@ -1,2 +1,2 @@
-CREATE USER IF NOT EXISTS sa PASSWORD '123';
-ALTER USER sa admin true ;
+create user if not exists sa password '123';
+alter user sa admin true ;

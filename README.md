@@ -51,6 +51,8 @@ create table question
 I.Flywaydb
 Configuration can also be supplied directly via the command-line using JVM system properties:
     命令：mvn flyway:migrate
+修复执行失败的flyway
+    命令：mvn flyway:repair
 
 II.自动生成get/set方法的Jar
 maven

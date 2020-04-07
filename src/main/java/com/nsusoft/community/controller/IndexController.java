@@ -19,9 +19,10 @@ public class IndexController {
     @RequestMapping("/")
     public String index(@RequestParam(value = "page", defaultValue = "1") Integer page,
                         @RequestParam(value = "size", defaultValue = "10") Integer size,
+                        @RequestParam(value = "search", required = false) String search,
                         ModelMap modelMap) {
 
-        List<QuestionDto> questions = service.queryAllQuestion(page, size);
+        List<QuestionDto> questions = service.queryAllQuestion(page, size, search);
         PageInfo pageInfo = new PageInfo(questions);
         modelMap.addAttribute("pageInfo", pageInfo);
         return "index";

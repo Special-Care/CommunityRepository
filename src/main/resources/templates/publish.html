@@ -13,7 +13,7 @@
     <script type="application/javascript" src="/js/editormd.min.js"></script>
 </head>
 <body>
-<div th:insert="~{header :: nav}"></div>
+<div th:insert="~{header :: head}"></div>
 
 <div class="container-fluid main">
     <div class="row">
@@ -39,7 +39,10 @@
                             path   : "/js/lib/",
                             delay  : 0,
                             watch  : false,
-                            placeholder  :  "请描述问题详情"
+                            placeholder  :  "请描述问题详情",
+                            imageUpload    : true,  //是否启用图片上传功能
+                            imageFormats   : ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                            imageUploadURL : "/file/upload",
                         });
                     });
                 </script>
@@ -87,5 +90,7 @@
         </div>
     </div>
 </div>
+
+<div th:insert="~{footer :: foot}"></div>
 </body>
 </html>

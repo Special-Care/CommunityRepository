@@ -1,0 +1,6 @@
+2020-04-07 15:47:36.742 DEBUG 2400 --- [http-nio-8080-exec-3] c.n.c.mapper.UserMapper.selectByExample  : ==>  Preparing: select ID, ACCOUNT_ID, NAME, TOKEN, GMT_CREATE, GMT_MODIFIED, BIO, PHOTO_URL from USER WHERE ( TOKEN = ? ) 
+2020-04-07 15:47:36.744 DEBUG 2400 --- [http-nio-8080-exec-3] c.n.c.mapper.UserMapper.selectByExample  : ==> Parameters: 401767b3-4fc9-4188-9eca-e1f6bf69a876(String)
+2020-04-07 15:47:36.745 DEBUG 2400 --- [http-nio-8080-exec-3] c.n.c.mapper.UserMapper.selectByExample  : <==      Total: 1
+2020-04-07 15:47:36.747 DEBUG 2400 --- [http-nio-8080-exec-3] c.n.c.m.N.countByExample                 : ==>  Preparing: select count(*) from NOTIFICATION WHERE ( RECEIVER = ? and STATUS = ? ) 
+2020-04-07 15:47:36.748 DEBUG 2400 --- [http-nio-8080-exec-3] c.n.c.m.N.countByExample                 : ==> Parameters: 131(Long), 0(Integer)
+2020-04-07 15:47:36.754 DEBUG 2400 --- [http-nio-8080-exec-3] c.n.c.m.N.countByExample                 : <==      Total: 1

@@ -140,3 +140,8 @@ body{
 .notification {
     float: right;
 }
+
+.footer {
+    padding: 10px 38%;
+    color: #666;
+}

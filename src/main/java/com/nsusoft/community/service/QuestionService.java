@@ -33,12 +33,15 @@ public class QuestionService {
     @Autowired
     private UserMapper userMapper;
 
-    public List<QuestionDto> queryAllQuestion(int page, int size) {
+    public List<QuestionDto> queryAllQuestion(int page, int size, String search) {
         PageHelper.startPage(page, size);
 
-        QuestionExample example = new QuestionExample();
-        example.setOrderByClause("gmt_create desc");
-        List<Question> questions = questionMapper.selectByExampleWithBLOBs(example);
+        if (StringUtils.isNotBlank(search)) {
+            String[] tags = StringUtils.split(search, " ");
+            String regexpTag = Arrays.stream(tags).collect(Collectors.joining("|"));
+        }
+
+        List<Question> questions = questionExtraMapper.selectSearch(search);
 
         return getList(questions);
     }

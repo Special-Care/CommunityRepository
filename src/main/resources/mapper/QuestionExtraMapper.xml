@@ -32,4 +32,14 @@
   <select id="selectRelated" parameterType="com.nsusoft.community.entity.Question" resultMap="BaseResultMap">
     select * from QUESTION where id !=#{id} and tag regexp #{tag}
   </select>
+
+  <select id="selectSearch" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select * from QUESTION
+    <where>
+      <if test="search != null">
+        and title regexp #{search}
+      </if>
+    </where>
+    order by gmt_create desc
+  </select>
 </mapper>

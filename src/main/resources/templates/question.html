@@ -15,7 +15,7 @@
     <script type="application/javascript" src="/js/lib/prettify.min.js"></script>
 </head>
 <body>
-<div th:insert="~{header :: nav}"></div>
+<div th:insert="~{header :: head}"></div>
 
 <div class="container-fluid main">
     <div class="row">
@@ -98,18 +98,17 @@
                 <div class="media">
                     <div class="media-left">
                         <a href="#">
-                            <img class="img_comment" th:src="${question.getUser().getPhotoUrl()}">
+                            <img class="img_comment" th:src="${session.user != null? session.user.photoUrl : '/images/default.png'}">
                         </a>
                     </div>
 
                     <div class="media-body">
-                        <span th:text="${question.getUser().getName()}"></span>
+                        <span th:text="${session.user != null? session.user.name : '匿名用户'}"></span>
                     </div>
                 </div>
 
                 <input type="hidden" id="questionId" th:value="${question.id}">
                 <textarea class="form-control comment_text" rows="6" id="topComment"></textarea>
-                <button type="button" class="btn btn-default">上传附件</button>
                 <button type="button" class="btn btn-success comment_button" onclick="onSubmitComment()">回复</button>
             </div>
         </div>
@@ -123,7 +122,7 @@
             <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
             <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                 <h4>关注社区论坛</h4>
-                <img class="img-thumbnail wechat" src="/image/wechat.jpg">
+                <img class="img-thumbnail wechat" src="/images/wechat.jpg">
             </div>
 
             <hr class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -138,5 +137,7 @@
         </div>
     </div>
 </div>
+
+<div th:insert="~{footer :: foot}"></div>
 </body>
 </html>

@@ -81,3 +81,16 @@ IV.MyBatis Generator
 3.You can pass parameters to the goal with standard Maven command line properties. For example:
     命令：mvn -Dmybatis.generator.overwrite=true mybatis-generator:generate
 ```
+
+##总结
+```text
+    经过两个月的学习开发(虽然是跟随学习的)并将项目发布到服务器的过程，让我的开发经历也是有所提升。
+当然最重要的是在该项目中我学习到许多的思维逻辑、程序的严谨性和应对错误的处理方式。在项目中我也学习
+到很多的知识点，也包括其他一些插件和工具的使用。
+    之前我对Spring Boot框架只是初步学习的阶段，经过这段时间对该项目的学习开发，让我也掌握了一些
+Spring Boot的用法。相对Spring Framework框架，该框架简化了配置文件的使用，如XML文件，统一使用
+application.properties配置。同时在该项目中有三个插件，让我觉得可以让我以后在开发过程中可以减少
+代码的书写和提高工作效率，这三个插件分别是Lombok、Flyway、MyBatis Generator.
+                                                     个人最喜欢的一句话：I am here with you !
+                                                                          署名：SpecialCare
+```
